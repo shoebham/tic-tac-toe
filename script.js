@@ -1,36 +1,45 @@
-let game_array = [
-    ['o','x','o'],
-    ['x','x','o'],
-    ['o','o','x']
+// let arr = [
+//     ['o','x','o'],
+//     ['x','x','o'],
+//     ['o','o','x']
+// ];
+let arr=[
+    ["00","01","02"],
+    ["10","11","12"],
+    ["20","21","22"]
 ];
-
 const gameBoard = (()=>
 {
     const init =()=>{
         
-        _fillBoard();
+        fillBoard();
         _clear();
         bind();
     }
-    const _fillBoard = ()=>
+    const fillBoard = (x,y,piece)=>
     {
-        for(var i=0;i<game_array.length;i++)
+        for(let i=0;i<arr.length;i++)
         {
-            for(var j=0;j<game_array.length;j++)
+            for(let j=0;j<arr.length;j++)
             {
                 // console.log("i "+i+" j "+j)
-                document.querySelector(`#cell_${i}${j}`).textContent=game_array[i][j].toUpperCase();                                
+                document.querySelector(`#cell_${i}${j}`).textContent=arr[i][j].toUpperCase();                                
             }
         }
+        if(x&&y&&piece)
+        {
+            const winner=_check_winner(x,y,piece); 
+            _declare_winner(winner);
+        }   
     }
     const _clear=()=>
     {
         document.querySelector("#clear").addEventListener("click",()=>{
-            game_array=[
+            arr=[
                 ["","",""],
                 ["","",""],
                 ["","",""]];
-            _fillBoard();
+            fillBoard();
         });
     }
     const bind = ()=>
@@ -45,9 +54,51 @@ const gameBoard = (()=>
             });
         });
     }
-    return {init,bind,_fillBoard};
+    const _check_winner = (x,y,piece)=>
+    {       
+        console.log("in check winner",piece);
+        //rows
+        for(var i=0;i<arr.length;i++)
+        {
+            console.log(x,y,piece);
+            if(arr[x][i]!=piece)
+                break;
+            if(i==arr.length-1)
+                return piece;
+                // console.log("winner: ",piece )
+        }
+        //cols
+        for(var i=0;i<arr.length;i++)
+        {
+            if(arr[i][y]!=piece)
+                break;
+            if(i==arr.length-1)
+                return piece;   
+            // console.log("winner: ",piece )    
+        }
+    
+        return "";
+        // console.log("Draw");
+        //diagonal
+        // for(var i=0;i<arr.length;i++)
+        // {
+        //     if(arr[i][y]!=piece)
+        //         break;
+        //     if(i==arr.length-1)
+        //         return piece;   
+        //     // console.log("winner: ",piece )    
+        // }
+    }
+
+    const _declare_winner =(piece)=>
+    {
+        document.querySelector("#winner").textContent=piece;
+    }
+    return {init,bind,fillBoard};
 })();
-const player =  ((name,piece)=>{
+
+
+const player =  ((piece)=>{
     
     let curr_player="X";
     const _player_choice =()=>
@@ -64,18 +115,21 @@ const player =  ((name,piece)=>{
     });
     const move =(e)=>
     {
-        
         console.log(e);
         const i =e.substring(5,7)[0];
         const j =e.substring(5,7)[1];
         // console.log(i,j);
+        let piece;
         console.log(piece);
-        if(game_array[i][j]==="")
+        if(arr[i][j]==="")
         {
-            const piece= _curr_piece();
-            game_array[i][j]=piece;
-            gameBoard._fillBoard();
+            piece = _curr_piece();
+            arr[i][j]=piece;
+            gameBoard.fillBoard(i,j,piece);         
+            console.log(arr)   
         }
+        // gameBoard.check_winner(i,j,piece);
+        
     };
     return {move,curr_player};
 })();
