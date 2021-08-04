@@ -12,34 +12,36 @@
     <div class="score">
         <table>
             <tr>
-            <th>Player 1</th>
-            <th>Player 2</th>
+            <th id="player1" class="curr_sel">Player 1</th>
+            <th id="player2">Player 2</th>
             </tr>
             <tr>
-                <th>X</th>
-                <th>O</th>
+                <th><select id="player1_sel"><option value="X">X</option><option value="O">O</option></th>
+                <th><select id="player2_sel"><option value="O">O</option><option value="X">X</option></th>
             </tr>
         </table><button id="clear">clear</button>
+        
+    </div>
+    <div class = "winner-board" style="margin:10px">
+        <center><span id="draw">The Winner is: -</span> <span id="winner"></span></center>
     </div>
     <div class="board">
         <div class="cells">
-            <button id="cell_00" class= "cell rb">  1   </button>
-            <button id="cell_01" class= "cell b">  2   </button>
-            <button id="cell_02" class= "cell lb">  3   </button>
-            <button id="cell_10" class= "cell r">  4   </button>
-            <button id="cell_11" class= "cell ">  5   </button>
-            <button id="cell_12" class= "cell l">  6   </button>
-            <button id="cell_20" class= "cell rt">  7   </button>
-            <button id="cell_21" class= "cell t">  8   </button>
-            <button id="cell_22" class= "cell lt">  9   </button>
+            <button id="cell_00" class= "cell rb">     </button>
+            <button id="cell_01" class= "cell b">     </button>
+            <button id="cell_02" class= "cell lb">     </button>
+            <button id="cell_10" class= "cell r">     </button>
+            <button id="cell_11" class= "cell ">    </button>
+            <button id="cell_12" class= "cell l">     </button>
+            <button id="cell_20" class= "cell rt">     </button>
+            <button id="cell_21" class= "cell t">     </button>
+            <button id="cell_22" class= "cell lt">     </button>
         </div>
         
     </div>
         
 </div>
-<div class = "winner-board">
-    Winner: - <span id="winner"></span>
-</div>
+
 </body>
 <script src ="script.js"></script>
 </html>

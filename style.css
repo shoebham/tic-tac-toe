@@ -13,6 +13,12 @@
     font-size: 24px;
     font-family: sans-serif;
 }
+
+.curr_sel
+{
+    background-color: black;
+    color:white;
+}
 table,th,td
 {
     border:1px solid black;
@@ -39,6 +45,12 @@ table,th,td
     background-color:black;
     color:white;
     cursor:pointer;
+}
+.cell:disabled
+{
+    color:black;
+    background-color: grey;
+    cursor: default;
 }
 /* borders for cells*/
 .lb{
