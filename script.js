@@ -41,12 +41,16 @@ const gameBoard = (()=>
                 ["","",""],
                 ["","",""]];
             fillBoard();
+            if(player.get_curr_player()==2)
+            {player.player_toggle();}
             let cells=document.querySelectorAll(".cell");
+            document.querySelector("#draw").textContent="The Winner is: -";
+            document.querySelector("#winner").textContent="";
             cells.forEach((e)=>
             {
                 e.disabled=false    ;
-                e.style=""
-            })
+                // e.style=""
+            });
         });
     }
     const bind = ()=>
@@ -96,19 +100,6 @@ const gameBoard = (()=>
             // console.log("winner: ",piece )    
         }
         
-        return "";
-    }
-
-    const _declare_winner =(piece)=>
-    {
-        _gameover(piece);
-        _board_full();
-        document.querySelector("#winner").textContent=piece;
-        console.log("in declare winner",piece)
-    }
-    const _board_full = ()=>
-    {
-        let flag=false;
         for(var i=0;i<arr.length;i++)
         {
             for(var j=0;j<arr.length;j++)
@@ -116,20 +107,56 @@ const gameBoard = (()=>
                 if(arr[i][j]=="")
                 {
                     flag=false;
-                    break;
+                    return "";
                 }
                 else
                 {
                     flag=true;
                 }
             }
+            if(flag)
+            {
+                _board_full(flag);
+                return "";
+            }
         }
-        console.log(flag);
-        if(flag)
-        {
+        
+        return "";
+    }
+
+    const _declare_winner =(piece)=>
+    {
+        _gameover(piece);
+        // _board_full();
+        document.querySelector("#winner").textContent=piece;
+        console.log("in declare winner",piece)
+    }
+    const _board_full = (flag)=>
+    {
+        // let flag=false;
+        // for(var i=0;i<arr.length;i++)
+        // {
+        //     for(var j=0;j<arr.length;j++)
+        //     {
+        //         console.log("in board full ",i,j);
+        //         if(arr[i][j]=="")
+        //         {
+        //             flag=false;
+        //             break;
+        //         }
+        //         else
+        //         {
+        //             flag=true;
+        //         }
+        //     }
+        //     if(!flag)break;
+        // }
+        // console.log(flag);
+        // if(flag)
+        // {
             document.querySelector("#draw").textContent="It's a draw";
             _gameover(flag);
-        }
+        // }
     }
     const _gameover = (x)=>
     {
@@ -139,7 +166,7 @@ const gameBoard = (()=>
             cells.forEach((e)=>
             {
                 e.disabled=true;
-                e.style=""
+                // e.style=""
             })
         }
     }
@@ -169,11 +196,19 @@ const player =  ((piece)=>{
         curr_player="O";
         else
         curr_player="X"
-        player_toggle();
+        
         return curr_player;
     });
-
-
+    // let curr=1;
+    const get_curr_player =()=>
+    {
+        let player1_sel= document.querySelector("#player1_sel").value;
+        let player2_sel= document.querySelector("#player2_sel").value;
+        if((curr_player=='X'&&player1_sel=='X')||curr_player=='O'&&player1_sel=='O')
+            return 1;
+        else if( (curr_player=='X'&&player2_sel=='X')||(curr_player=='O'&&player2_sel=='O'))
+            return 2;
+    };
     const player_toggle=(()=>
     {
         let player1=document.querySelector("#player1");
@@ -192,7 +227,7 @@ const player =  ((piece)=>{
             player1.classList.toggle("curr_sel");
             player2.classList.toggle("curr_sel");
         }
-
+        _curr_piece();
     });
     const move =(e)=>
     {
@@ -205,9 +240,16 @@ const player =  ((piece)=>{
         if(arr[i][j]==="")
         {
             arr[i][j]=piece;
+            if(get_curr_player()==1)
+            document.querySelector(`#cell_${i}${j}`).style="!important;color:blue;"
+            else
+            document.querySelector(`#cell_${i}${j}`).style="!important;color:red;"
+
             gameBoard.fillBoard(i,j,piece);         
+            console.log("in move",get_curr_player());
+
             console.log(arr)   
-            piece = _curr_piece();
+            piece = player_toggle();
         }
         // gameBoard.check_winner(i,j,piece);
         
@@ -221,7 +263,7 @@ const player =  ((piece)=>{
         player1.addEventListener("change",()=>{ player_choice()});
         player2.addEventListener("change",()=>{ player_choice()});
     })();
-    return {move,player_choice,player_toggle};
+    return {move,player_choice,player_toggle,get_curr_player};
 })();
 
 gameBoard.init();
