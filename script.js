@@ -89,17 +89,28 @@ const gameBoard = (()=>
         }
     
   
-        // console.log("Draw");
-        // diagonal
+        console.log("Draw");
+        // right bottom diagonal
         for(var i=0;i<arr.length;i++)
         {
+
             if(arr[i][i]!=piece)
                 break;
             if(i==arr.length-1)
                 return piece;   
-            // console.log("winner: ",piece )    
+            console.log("winner: ",piece )    
         }
-        
+        let temp=0;
+        for(var i=arr.length-1;i>=0;i--)
+        {
+            
+
+            if(arr[temp++][i]!=piece)
+                break;
+            if(i==0)
+                return piece;   
+            console.log("winner: ",piece )    
+        }
         for(var i=0;i<arr.length;i++)
         {
             for(var j=0;j<arr.length;j++)
@@ -114,13 +125,13 @@ const gameBoard = (()=>
                     flag=true;
                 }
             }
-            if(flag)
-            {
-                _board_full(flag);
-                return "";
-            }
+           
         }
-        
+        if(flag)
+        {
+            _board_full(flag);
+            return "";
+        }
         return "";
     }
 
