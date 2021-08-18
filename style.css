@@ -4,7 +4,7 @@
     
 }
 body{
-   background-image: url("/paper.jpg");
+   background-image: url("./paper.jpg");
 }
 .container
 {
@@ -73,7 +73,7 @@ table,th,td
 
     background-color:rgba(44, 44, 44, 0.548);
     color:white;
-    cursor:url("/cursor.cur"),pointer;
+    cursor:url("./cursor.cur"),pointer;
 }
 .cell:disabled
 {
